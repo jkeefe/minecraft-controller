@@ -43,16 +43,16 @@ def ledToggle(state):
 	GPIO.output(25, not GPIO.input(25))
 	
 	# flash the middle LED
-    try:
-        while state == 1:
-            for dc in range(0, 101, 5):
-                p.ChangeDutyCycle(dc)
-                time.sleep(0.01)
-            for dc in range(100, -1, -5):
-                p.ChangeDutyCycle(dc)
-                time.sleep(0.01)
-    except KeyboardInterrupt:
-        pass
+	try:
+		while state == 1:
+			for dc in range(0, 101, 5):
+				p.ChangeDutyCycle(dc)
+				time.sleep(0.01)
+			for dc in range(100, -1, -5):
+				p.ChangeDutyCycle(dc)
+				time.sleep(0.01)
+	except KeyboardInterrupt:
+		pass
 
 # run an infinite loop to check the button press
 while True:
