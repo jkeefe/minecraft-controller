@@ -30,6 +30,8 @@ GPIO.setup(25, GPIO.OUT)
 p = GPIO.PWM(24, 50)  # channel=24 frequency=50Hz
 p.start(0)
 
+toggle_state = False
+
 # define a function to toggle the LEDs
 def ledToggle(state):
 
@@ -43,28 +45,29 @@ def ledToggle(state):
 	# GPIO.output(24, not GPIO.input(24))
 	GPIO.output(25, not GPIO.input(25))
 	
-	# flash the middle LED
-	try:
-		while state == 1:
-			for dc in range(0, 101, 5):
-				p.ChangeDutyCycle(dc)
-				time.sleep(0.01)
-			for dc in range(100, -1, -5):
-				p.ChangeDutyCycle(dc)
-				time.sleep(0.01)
-	except KeyboardInterrupt:
-		pass
+
 
 # run an infinite loop to check the button press
 while True:
 	GPIO.wait_for_edge(22, GPIO.FALLING)
 	print("Button 2 Pressed")
-	ledToggle(1)
+	ledToggle()
+	toggle_state = True
 
 	GPIO.wait_for_edge(22, GPIO.RISING)
 	print("Button 2 Released")
-	ledToggle(0)
+	ledToggle()
+	toggle_state = False
 	
+	# flash the middle LED
+	if toggle_state == True:
+		for dc in range(0, 101, 5):
+			p.ChangeDutyCycle(dc)
+			time.sleep(0.01)
+		for dc in range(100, -1, -5):
+			p.ChangeDutyCycle(dc)
+			time.sleep(0.01)
+
 
 p.stop()
 GPIO.cleanup()
