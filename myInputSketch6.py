@@ -33,7 +33,7 @@ p.start(0)
 toggle_state = False
 
 # define a function to toggle the LEDs
-def ledToggle(state):
+def ledToggle():
 
 	# to set output to high:
 	# GPIO.output(12, GPIO.HIGH) or
