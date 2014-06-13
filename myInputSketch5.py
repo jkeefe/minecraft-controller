@@ -12,7 +12,7 @@ GPIO.setup(23, GPIO.OUT)
 GPIO.setup(24, GPIO.OUT)
 GPIO.setup(25, GPIO.OUT)
 
-def ledToggle(channel):
+def ledToggle():
 
 	# to set output to high:
 	# GPIO.output(12, GPIO.HIGH) or
