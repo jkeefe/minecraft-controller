@@ -1,6 +1,10 @@
 #
 # This script is an experiment to trigger the LEDs with a button,
-# but make the middle LED fade in and out
+# but make the middle LED fade in and out in a pulsing flash
+#
+# This almost works ... you have to hold the button down until the middle LED doesn't flash
+# But it'll do the trick for building app.py
+#
 # I learned how to do this from Make magazine, here:
 # http://makezine.com/projects/tutorial-raspberry-pi-gpio-pins-and-python/
 #
