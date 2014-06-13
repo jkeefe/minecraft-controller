@@ -27,11 +27,13 @@ def ledToggle(channel):
 # GPIO.add_event_detect(22, GPIO.RISING, callback=ledToggle, bouncetime=300)
 
 while True:
-	GPIO.wait_for_edge(22, GPIO.FALLING, callback=ledToggle)
+	GPIO.wait_for_edge(22, GPIO.FALLING)
 	print("Button 2 Pressed")
+	ledToggle()
 
-	GPIO.wait_for_edge(22, GPIO.RISING, callback=ledToggle)
+	GPIO.wait_for_edge(22, GPIO.RISING)
 	print("Button 2 Released")
+	ledToggle()
 
 GPIO.cleanup()
 
