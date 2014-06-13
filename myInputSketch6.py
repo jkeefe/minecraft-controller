@@ -11,6 +11,7 @@
 #
 
 import RPi.GPIO as GPIO
+import time
 
 #set up GPIO using BCM numbering
 GPIO.setmode(GPIO.BCM)
