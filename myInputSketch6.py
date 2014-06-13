@@ -46,27 +46,22 @@ def ledToggle():
 	GPIO.output(25, not GPIO.input(25))
 	
 
-
 # run an infinite loop to check the button press
 while True:
 	GPIO.wait_for_edge(22, GPIO.FALLING)
 	print("Button 2 Pressed")
 	ledToggle()
-	toggle_state = True
+	for dc in range(0, 101, 5):
+		p.ChangeDutyCycle(dc)
+		time.sleep(0.01)
+	for dc in range(100, -1, -5):
+		p.ChangeDutyCycle(dc)
+		time.sleep(0.01)
 
 	GPIO.wait_for_edge(22, GPIO.RISING)
 	print("Button 2 Released")
 	ledToggle()
-	toggle_state = False
-	
-	# flash the middle LED
-	if toggle_state == True:
-		for dc in range(0, 101, 5):
-			p.ChangeDutyCycle(dc)
-			time.sleep(0.01)
-		for dc in range(100, -1, -5):
-			p.ChangeDutyCycle(dc)
-			time.sleep(0.01)
+
 
 
 p.stop()
