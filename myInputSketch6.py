@@ -51,12 +51,13 @@ while True:
 	GPIO.wait_for_edge(22, GPIO.FALLING)
 	print("Button 2 Pressed")
 	ledToggle()
-	for dc in range(0, 101, 5):
-		p.ChangeDutyCycle(dc)
-		time.sleep(0.01)
-	for dc in range(100, -1, -5):
-		p.ChangeDutyCycle(dc)
-		time.sleep(0.01)
+	for i in range(0,5):
+    	for dc in range(0, 101, 5):
+    		p.ChangeDutyCycle(dc)
+    		time.sleep(0.01)
+    	for dc in range(100, -1, -5):
+    		p.ChangeDutyCycle(dc)
+    		time.sleep(0.01)
 
 	GPIO.wait_for_edge(22, GPIO.RISING)
 	print("Button 2 Released")
