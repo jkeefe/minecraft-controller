@@ -26,7 +26,7 @@ GPIO.setup(24, GPIO.OUT)
 GPIO.setup(25, GPIO.OUT)
 
 # define a pulse-wave-monitor on pin 24 for the yellow flasher
-p = GPIO.PWM(22, 50)  # channel=24 frequency=50Hz
+p = GPIO.PWM(24, 50)  # channel=24 frequency=50Hz
 p.start(0)
 
 # define a function to toggle the LEDs
