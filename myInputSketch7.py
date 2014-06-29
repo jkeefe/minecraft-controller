@@ -10,6 +10,8 @@
 #
 # On the pi, you must run this script as sudo to access pins
 #
+# v7 - use event listener for the yellow button cycle
+#
 # John Keefe - john@johnkeefe.net - johnnkeefe.net
 # June 2014
 #
@@ -36,6 +38,24 @@ p.start(0)
 
 toggle_state = False
 
+def yellowLightFlash():
+    # cycle the flashing yellow (p) 5 times
+    for i in range(0,5):
+        for dc in range(0, 101, 5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.01)
+        for dc in range(100, -1, -5):
+            p.ChangeDutyCycle(dc)
+            time.sleep(0.01)
+
+def redLightToggle(state):
+    # set LED using "True" or "False" as state
+    GPIO.output(23, state)
+
+def greenLightToggle(state):
+    # set LED using "True" or "False" as state
+    GPIO.output(25, state)
+
 # define a function to toggle the LEDs
 def ledToggle():
 
@@ -48,28 +68,18 @@ def ledToggle():
     GPIO.output(23, not GPIO.input(23))
     # GPIO.output(24, not GPIO.input(24))
     GPIO.output(25, not GPIO.input(25))
-    
 
-# run an infinite loop to check the button press
+
+# set up an event listner for a button press on GPIO 22
+# such that a button press triggers the flashing yellow
+GPIO.add_event_detect(22, GPIO.FALLING, callback=yellowLightFlash, bouncetime=300)
+
+# run an infinite loop
 while True:
-    GPIO.wait_for_edge(22, GPIO.FALLING)
-    print("Button 2 Pressed")
-    
-    # use the LED toggle function
+    # test by toggling the LEDs
     ledToggle()
-    
-    # cycle the flashing yellow (p) 5 times
-    for i in range(0,5):
-        for dc in range(0, 101, 5):
-            p.ChangeDutyCycle(dc)
-            time.sleep(0.01)
-        for dc in range(100, -1, -5):
-            p.ChangeDutyCycle(dc)
-            time.sleep(0.01)
-
-    GPIO.wait_for_edge(22, GPIO.RISING)
-    print("Button 2 Released")
-    ledToggle()
+    # sleep 10 seconds
+    time.sleep(10)
 
 p.stop()
 GPIO.cleanup()
