@@ -39,27 +39,27 @@ GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def allLightsOff():
     # turns all lights off to reset
-	GPIO.output(23, False)
-	GPIO.output(24, False)
-	GPIO.output(25, False)    
+    GPIO.output(23, False)
+    GPIO.output(24, False)
+    GPIO.output(25, False)
 
 def greenlight():
-	print 'green light'
-	# reset all lights
+    print 'green light'
+    # reset all lights
     allLightsOff()
     # illuminate the green one
     GPIO.output(25, True)  
-	
+
 def redlight():
-	print 'red light'
-	# reset all lights
+    print 'red light'
+    # reset all lights
     allLightsOff()
     # illuminate the red one
     GPIO.output(23, True)
-	
+
 def yellowlight():
-	print 'yellow light'
-	# cycle the flashing yellow (p) 5 times
+    print 'yellow light'
+    # cycle the flashing yellow (p) 5 times
     for i in range(0,5):
         for dc in range(0, 101, 5):
             p.ChangeDutyCycle(dc)
@@ -69,8 +69,8 @@ def yellowlight():
             time.sleep(0.01)
 
 def start_instance(instance_id):
-	# start my instance
-	connection.start_instances(instance_id)
+    # start my instance
+    connection.start_instances(instance_id)
 
 # Establish connection object
 # Note: Access keys are in the config file ~/.boto
@@ -78,28 +78,23 @@ def start_instance(instance_id):
 
 # One infinite loop
 while True:
-	
-	# get fresh instance object
-	# note connection.get_only_instances() returns an array of all instances
-	# here just want the matching one, we limit it such that it returns a list of one
-	instance_list = connection.get_only_instances(instance_ids=[minecraft_instance])
-	
-	# the single instance we fetched will be available as instance_list[0]
-	my_instance = instance_list[0]
+    
+    # get fresh instance object
+    # note connection.get_only_instances() returns an array of all instances
+    # here just want the matching one, we limit it such that it returns a list of one
+    instance_list = connection.get_only_instances(instance_ids=[minecraft_instance])
+    
+    # the single instance we fetched will be available as instance_list[0]
+    my_instance = instance_list[0]
 
-	if my_instance.state == 'running':
-		greenlight()
-	elif my_instance.state == 'stopped':
-		redlight()
-	elif my_instance.state == 'stopping' or my_instance.state == 'pending':
-		yellowlight()
-	else:
-		print 'unknown status: %s' % my_instance.state
-		
-	# wait x seconds
-	time.sleep(5)
-	
-	
-
-
-		
+    if my_instance.state == 'running':
+        greenlight()
+    elif my_instance.state == 'stopped':
+        redlight()
+    elif my_instance.state == 'stopping' or my_instance.state == 'pending':
+        yellowlight()
+    else:
+        print 'unknown status: %s' % my_instance.state
+        
+    # wait x seconds
+    time.sleep(5)
