@@ -61,7 +61,7 @@ def greenlight():
     allLightsOff()
     # illuminate the green one
     GPIO.output(23, True)  
-    # modify the global waitTime to check less often
+    # modify the global waitTime to regular interval
     global waitTime
     waitTime = 30
 
@@ -71,7 +71,7 @@ def redlight():
     allLightsOff()
     # illuminate the red one
     GPIO.output(25, True)
-    # modify the global waitTime to check less often
+    # modify the global waitTime to regular interval
     global waitTime
     waitTime = 30
 
@@ -87,8 +87,8 @@ def yellowlight():
             p.ChangeDutyCycle(dc)
             time.sleep(0.01)
     # leave it on when done
-    GPIO.output(25, True)
-    # modify the global waitTime to check more often
+    GPIO.output(24, True)
+    # modify the global waitTime to check more often while starting/stopping
     global waitTime
     waitTime = 5
 
@@ -129,3 +129,13 @@ while True:
         
     # wait x seconds
     time.sleep(waitTime)
+    
+# run in a screen:
+#   screen
+#   sudo python app.py
+#   [Ctrl - a - d]
+#
+# return to screen with
+#   screen -r [optional screen id]
+
+
