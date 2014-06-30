@@ -20,6 +20,14 @@ import time
 minecraft_instance = 'i-dbb74ff8'
 connection = boto.ec2.connect_to_region('us-east-1')
 
+
+# The connection line above establishes the connection object
+# Note: Access keys are in the config file ~/.boto  (for a user)
+#       But on the pi, since we're running under sudo to get the pins, needs to be at /etc/boto.cfg
+#       See details at http://boto.readthedocs.org/en/latest/boto_config_tut.html
+
+
+
 #set up the raspberry pi's GPIO using BCM numbering
 GPIO.setmode(GPIO.BCM)
 
@@ -60,6 +68,7 @@ def redlight():
 
 def yellowlight():
     print 'yellow light'
+    allLightsOff()
     # cycle the flashing yellow (p) 5 times
     for i in range(0,5):
         for dc in range(0, 101, 5):
@@ -72,12 +81,25 @@ def yellowlight():
 def start_instance(instance_id):
     # start my instance
     connection.start_instances(instance_id)
+    
+def startupServer(channel):
+    # This function runs when the button is pushed
+    # Note the listener passes one argument, which is the pin that is triggered (channel)
+    start_instance(minecraft_instance)
+    starting = True
+    while starting == True
+        yellowlight()
+        # check to see if the server is running yet
+        # if it is, set the green light and bail out of this loop
+        if my_instance.state == 'running'
+            greenlight()
+            starting = False
+        time.sleep(5)
 
-# Establish connection object
-# Note: Access keys are in the config file ~/.boto  (for a user)
-#       But on the pi, since we're running under sudo to get the pins, needs to be at /etc/boto.cfg
-#       See details at http://boto.readthedocs.org/en/latest/boto_config_tut.html
 
+# set up an event listner for a button press on GPIO 22
+# such that a button press triggers the flashing yellow
+GPIO.add_event_detect(22, GPIO.FALLING, callback=startupServer, bouncetime=300)
 
 # One infinite loop
 while True:
