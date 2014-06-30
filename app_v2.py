@@ -13,6 +13,7 @@
 
 # import boto
 import boto.ec2
+import RPi.GPIO as GPIO
 import time
 
 # set these variables for the EC2 instance
@@ -73,7 +74,9 @@ def start_instance(instance_id):
     connection.start_instances(instance_id)
 
 # Establish connection object
-# Note: Access keys are in the config file ~/.boto
+# Note: Access keys are in the config file ~/.boto  (for a user)
+#       But on the pi, since we're running under sudo to get the pins, needs to be at /etc/boto.cfg
+#       See details at http://boto.readthedocs.org/en/latest/boto_config_tut.html
 
 
 # One infinite loop
