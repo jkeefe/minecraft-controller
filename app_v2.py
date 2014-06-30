@@ -25,9 +25,9 @@ GPIO.setmode(GPIO.BCM)
 
 # set pin 23-25 to output for the LEDs
 # LEDs are wired with pin wire to positive side (power) and ground + 330ohm resistor to negative side (ground)
-GPIO.setup(23, GPIO.OUT) # Red
+GPIO.setup(23, GPIO.OUT) # Green
 GPIO.setup(24, GPIO.OUT) # Yellow
-GPIO.setup(25, GPIO.OUT) # Green
+GPIO.setup(25, GPIO.OUT) # Red
 
 # define a pulse-wave-monitor on pin 24 for the yellow flasher
 # so that it can fade in and out (an aesthetic touch)
@@ -49,14 +49,14 @@ def greenlight():
     # reset all lights
     allLightsOff()
     # illuminate the green one
-    GPIO.output(25, True)  
+    GPIO.output(23, True)  
 
 def redlight():
     print 'red light'
     # reset all lights
     allLightsOff()
     # illuminate the red one
-    GPIO.output(23, True)
+    GPIO.output(25, True)
 
 def yellowlight():
     print 'yellow light'
