@@ -70,7 +70,7 @@ def yellowlight():
     print 'yellow light'
     allLightsOff()
     # cycle the flashing yellow (p) 5 times
-    for i in range(0,5):
+    for i in range(0,10):
         for dc in range(0, 101, 5):
             p.ChangeDutyCycle(dc)
             time.sleep(0.01)
@@ -89,12 +89,22 @@ def startupServer(channel):
     starting = True
     while starting == True:
         yellowlight()
+        
+        # pause 10 seconds
+        time.sleep(10)
+        
+        # get new instance info
+        instance_list = connection.get_only_instances(instance_ids=[minecraft_instance])
+
+        # the single instance we fetched will be available as instance_list[0]
+        starting_instance = instance_list[0]
+        
         # check to see if the server is running yet
         # if it is, set the green light and bail out of this loop
-        if my_instance.state == 'running':
+        if starting_instance.state == 'running':
             greenlight()
             starting = False
-        time.sleep(5)
+
 
 
 # set up an event listner for a button press on GPIO 22
