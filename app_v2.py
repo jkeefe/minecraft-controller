@@ -61,6 +61,9 @@ def greenlight():
     allLightsOff()
     # illuminate the green one
     GPIO.output(23, True)  
+    # modify the global waitTime to check less often
+    global waitTime
+    waitTime = 30
 
 def redlight():
     print 'red light'
@@ -68,6 +71,9 @@ def redlight():
     allLightsOff()
     # illuminate the red one
     GPIO.output(25, True)
+    # modify the global waitTime to check less often
+    global waitTime
+    waitTime = 30
 
 def yellowlight():
     print 'yellow light'
@@ -80,12 +86,16 @@ def yellowlight():
         for dc in range(100, -1, -5):
             p.ChangeDutyCycle(dc)
             time.sleep(0.01)
+    # leave it on when done
+    GPIO.output(25, True)
+    # modify the global waitTime to check more often
+    global waitTime
+    waitTime = 5
 
 def start_instance(instance_id):
     # start my instance
     connection.start_instances(instance_id)
     yellowlight()
-    global waitTime = 5
     
 def startupServer(channel):
     # This function runs when the button is pushed
@@ -96,8 +106,6 @@ def startupServer(channel):
 # set up an event listner for a button press on GPIO 22
 # such that a button press triggers the flashing yellow
 GPIO.add_event_detect(22, GPIO.FALLING, callback=startupServer, bouncetime=300)
-
-
 
 # One infinite loop
 while True:
@@ -112,13 +120,10 @@ while True:
     
     if my_instance.state == 'running':
         greenlight()
-        global waitTime = 30
     elif my_instance.state == 'stopped':
         redlight()
-        global waitTime = 30
     elif my_instance.state == 'stopping' or my_instance.state == 'pending':
         yellowlight()
-        global waitTime = 5
     else:
         print 'unknown status: %s' % my_instance.state
         
