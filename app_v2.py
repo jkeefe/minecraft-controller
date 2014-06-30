@@ -87,11 +87,11 @@ def startupServer(channel):
     # Note the listener passes one argument, which is the pin that is triggered (channel)
     start_instance(minecraft_instance)
     starting = True
-    while starting == True
+    while starting == True:
         yellowlight()
         # check to see if the server is running yet
         # if it is, set the green light and bail out of this loop
-        if my_instance.state == 'running'
+        if my_instance.state == 'running':
             greenlight()
             starting = False
         time.sleep(5)
@@ -122,4 +122,4 @@ while True:
         print 'unknown status: %s' % my_instance.state
         
     # wait x seconds
-    time.sleep(5)
+    time.sleep(30)
