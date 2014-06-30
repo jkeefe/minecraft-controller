@@ -2,15 +2,14 @@
 # This script is an experiment to trigger the LEDs with a button,
 # but make the middle LED fade in and out in a pulsing flash
 #
-# This almost works ... you have to hold the button down until the middle LED doesn't flash
-# But it'll do the trick for building app.py
-#
 # I learned how to do this from Make magazine, here:
 # http://makezine.com/projects/tutorial-raspberry-pi-gpio-pins-and-python/
 #
 # On the pi, you must run this script as sudo to access pins
 #
 # v7 - use event listener for the yellow button cycle
+#       red and green lights toggle ever 10 seconds in loop
+#       pressing button triggers event listener, flashing yellow light
 #
 # John Keefe - john@johnkeefe.net - johnnkeefe.net
 # June 2014
@@ -36,11 +35,8 @@ GPIO.setup(25, GPIO.OUT)
 p = GPIO.PWM(24, 50)  # channel=24 frequency=50Hz
 p.start(0)
 
-toggle_state = False
-
 def yellowLightFlash(channel):
     # (note that the event listener passes one argument, so need to accept it as channel)
-    print channel
     # cycle the flashing yellow (p) 5 times
     for i in range(0,5):
         for dc in range(0, 101, 5):
@@ -49,14 +45,6 @@ def yellowLightFlash(channel):
         for dc in range(100, -1, -5):
             p.ChangeDutyCycle(dc)
             time.sleep(0.01)
-
-def redLightToggle(state):
-    # set LED using "True" or "False" as state
-    GPIO.output(23, state)
-
-def greenLightToggle(state):
-    # set LED using "True" or "False" as state
-    GPIO.output(25, state)
 
 # define a function to toggle the LEDs
 def ledToggle():
