@@ -46,6 +46,9 @@ p.start(0)
 # so we engage pull-up resistor (pull-down if to 3.3v instead of ground)
 GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+# set waitTime as a global variable
+waitTime = 30
+
 def allLightsOff():
     # turns all lights off to reset
     GPIO.output(23, False)
@@ -81,35 +84,20 @@ def yellowlight():
 def start_instance(instance_id):
     # start my instance
     connection.start_instances(instance_id)
+    yellowlight()
+    global waitTime = 5
     
 def startupServer(channel):
     # This function runs when the button is pushed
     # Note the listener passes one argument, which is the pin that is triggered (channel)
     start_instance(minecraft_instance)
-    starting = True
-    while starting == True:
-        yellowlight()
-        
-        # pause 10 seconds
-        time.sleep(10)
-        
-        # get new instance info
-        instance_list = connection.get_only_instances(instance_ids=[minecraft_instance])
-
-        # the single instance we fetched will be available as instance_list[0]
-        starting_instance = instance_list[0]
-        
-        # check to see if the server is running yet
-        # if it is, set the green light and bail out of this loop
-        if starting_instance.state == 'running':
-            greenlight()
-            starting = False
-
 
 
 # set up an event listner for a button press on GPIO 22
 # such that a button press triggers the flashing yellow
 GPIO.add_event_detect(22, GPIO.FALLING, callback=startupServer, bouncetime=300)
+
+
 
 # One infinite loop
 while True:
@@ -121,15 +109,18 @@ while True:
     
     # the single instance we fetched will be available as instance_list[0]
     my_instance = instance_list[0]
-
+    
     if my_instance.state == 'running':
         greenlight()
+        global waitTime = 30
     elif my_instance.state == 'stopped':
         redlight()
+        global waitTime = 30
     elif my_instance.state == 'stopping' or my_instance.state == 'pending':
         yellowlight()
+        global waitTime = 5
     else:
         print 'unknown status: %s' % my_instance.state
         
     # wait x seconds
-    time.sleep(30)
+    time.sleep(waitTime)
