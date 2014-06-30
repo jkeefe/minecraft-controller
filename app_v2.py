@@ -86,11 +86,9 @@ def yellowlight():
         for dc in range(100, -1, -5):
             p.ChangeDutyCycle(dc)
             time.sleep(0.01)
-    # leave it on when done
-    GPIO.output(24, True)
     # modify the global waitTime to check more often while starting/stopping
     global waitTime
-    waitTime = 5
+    waitTime = 3
 
 def start_instance(instance_id):
     # start my instance
