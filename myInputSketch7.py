@@ -38,7 +38,9 @@ p.start(0)
 
 toggle_state = False
 
-def yellowLightFlash():
+def yellowLightFlash(channel):
+    # (note that the event listener passes one argument, so need to accept it as channel)
+    print channel
     # cycle the flashing yellow (p) 5 times
     for i in range(0,5):
         for dc in range(0, 101, 5):
